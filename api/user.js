@@ -7,8 +7,10 @@ var user = new User();
 
 // 注册
 router.post('/register', async (req, res) => {
+  console.log(req.body)
   if (!req.body.code || !req.body.password) {
     res.json(400, { message: "请输入账号或者密码！", code: 3 });
+    return
   }
   User.find({ code: req.body.code }, (err, docs) => {
     if (docs.length > 0) {
@@ -32,6 +34,10 @@ router.post('/register', async (req, res) => {
 
 
 router.post('/login', function (req, res) {
+  if (!req.body.code || !req.body.password) {
+    res.json(400, { message: "请输入账号或者密码！", code: 3 });
+    return
+  }
   const code = req.body.code;
   const password = req.body.password;
   const tokenObj = {
@@ -42,8 +48,8 @@ router.post('/login', function (req, res) {
       res.json(400, { message: "该用户不存在", code: 3 });
     } else if (users[0].password === password) {
       let token = jwt.sign(tokenObj, secretKey, {
-        expiresIn : 60 * 60 * 24 // 授权时效24小时
-  })
+        expiresIn: 60 * 60 * 24 // 授权时效24小时
+      })
       res.json({ message: "登录成功", code: 0, token });
     } else if (users[0].password !== password) {
       res.json(400, { message: "密码不正确，请重新输入！", code: 3 });
@@ -64,12 +70,12 @@ router.get('/', (req, res) => {
         }
       })
       if (query.code) {
-        res.json({ message: '请求成功', data: userList[0] });
+        res.json(200, { message: '请求成功', data: userList[0] });
         return
       }
-      res.json({ message: '请求成功', data: userList });
+      res.json(200, { message: '请求成功', data: userList });
     } else {
-      res.send(400, { message: '暂无用户' })
+      res.send(404, { message: '暂无用户' })
     }
   })
 })
