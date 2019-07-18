@@ -8,7 +8,6 @@ module.exports = function (app) {
     // 所有请求过来都会进行身份验证
     app.use(jwtAuth)
     app.use(function (err, req, res, next) {
-        console.log('token')
         if (err.name === 'UnauthorizedError') {
             res.status(err.status).send({ message: '认证失败，请重新登录！'});
             console.error(err);

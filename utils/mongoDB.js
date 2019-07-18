@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 const env = require('./envalid')
 
-// const mongoDB = 'mongodb://127.0.0.1/my_database';
 mongoose.connect(env.DB_URI, {
     dbName: env.DB_NAME,
     useNewUrlParser: true,
