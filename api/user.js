@@ -73,7 +73,7 @@ router.get('/', (req, res) => {
         res.json(200, { message: '请求成功', data: userList[0] });
         return
       }
-      res.json(200, { message: '请求成功', data: userList });
+      res.json(200, { message: '请求成功', list: userList });
     } else {
       res.send(404, { message: '暂无用户' })
     }
