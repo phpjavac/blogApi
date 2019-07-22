@@ -7,6 +7,9 @@ const validateEnv = () =>
         DB_NAME: str(),
         HOST: str(),
         PORT: str(),
+        JIRA_URL: str(),
+        JIRA_NAME: str(),
+        JIRA_PASSWORD: str()
     });
 
 module.exports = validateEnv();
