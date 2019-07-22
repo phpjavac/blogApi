@@ -5,6 +5,7 @@ server/package-lock.json
 package-lock.json
 server/yarn.lock
 yarn.lock
+.env
 
 # Log files
 npm-debug.log*
