@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var env = require('./utils/envalid');
+var env = require('../../utils/envalid');
 const request = require('request')
 const { JIRA_URL, JIRA_NAME, JIRA_PASSWORD } = env;
 
