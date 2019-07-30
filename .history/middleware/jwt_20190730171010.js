@@ -4,7 +4,7 @@
 module.exports = function (app) {
     const expressJwt = require("express-jwt");
     const { secretKey } = require('../utils/constant');
-    const jwtAuth = expressJwt({ secret: secretKey }).unless({ path: ["/api/article/list","/api/article/taglist","/api/user/login", "/api/user/register","/api/tool/workingday"] });
+    const jwtAuth = expressJwt({ secret: secretKey }).unless({ path: ["/api/article/list/1/10","/api/article/taglist","/api/user/login", "/api/user/register","/api/tool/workingday"] });
     // 所有请求过来都会进行身份验证
     app.use(jwtAuth)
     app.use(function (err, req, res, next) {
