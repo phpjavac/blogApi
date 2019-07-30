@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var { Tag, Article } = require('../models/article')
 
-router.get('/list', (req, res) => {
+router.get('/list/:page/:pageSize', (req, res) => {
     console.log(req.params)
     const page = +req.params.page || 1
     const pageSize = +req.params.pageSize || 10
