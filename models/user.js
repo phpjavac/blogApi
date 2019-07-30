@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
     },
     registration: {
         type: String,
-        default: new Date()
+        default: new Date().getTime()
     }
 },{versionKey: false})
 
