@@ -2,11 +2,23 @@ var express = require('express');
 var router = express.Router();
 var { Tag, Article } = require('../models/article')
 
+
+router.get('/list/tag', (req, res) => {
+    const tag = req.query.tag
+    console.log(req)
+    Article.find({ tag:tag }, (err, re) => {
+        if (err) {
+            res.send(err);
+            return
+        }
+        res.json({ data: { list: re } });
+    }).sort({ "time": -1 });
+})
+
 router.get('/list', (req, res) => {
-    console.log(req.params)
-    const page = +req.params.page || 1
-    const pageSize = +req.params.pageSize || 10
-    var query = Article.find({}).sort({"time":-1});
+    const page = +req.query.page || 1
+    const pageSize = +req.query.pageSize || 10
+    var query = Article.find({}).sort({ "time": -1 });
     query.skip((page - 1) * pageSize);
     query.limit(pageSize);
     //计算分页数据
