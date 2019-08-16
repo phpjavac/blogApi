@@ -6,7 +6,7 @@ var { Tag, Article } = require('../models/article')
 router.get('/list/tag', (req, res) => {
     const tag = req.query.tag
     console.log(req)
-    Article.find({ tag:tag }, (err, re) => {
+    Article.find({ tag: tag }, (err, re) => {
         if (err) {
             res.send(err);
             return
@@ -45,7 +45,22 @@ router.get('/list', (req, res) => {
     //     res.send(data);
     // })
 })
-
+router.delete('/', (req, res) => {
+    Article.remove({ _id: req.query.id }, (error, success) => {
+        if (success.deletedCount === 1) {
+            Article.find({}, (err, data) => {
+                res.send({
+                    message: '删除成功',
+                    list: data
+                })
+            })
+        } else {
+            res.send(400, {
+                message: '删除失败，请稍后重试'
+            })
+        }
+    })
+})
 router.post('/create', (req, res) => {
     const article = new Article()
     article.title = req.body.title || ""
@@ -55,18 +70,47 @@ router.post('/create', (req, res) => {
     article.content = req.body.content || ""
     article.imgurl = req.body.imgurl || ""
     article.state = req.body.state || true
-    article.time = req.body.imgurl || new Date().getTime()
+    article.time = req.body.time || new Date().getTime()
+    if (req.body._id) {
+        // article._id = req.body._id
+        const data = {
+            title: req.body.title || "",
+            code: req.body.code || "",
+            tag: req.body.tag || [],
+            summary: req.body.summary || "",
+            content: req.body.content || "",
+            imgurl: req.body.imgurl || "",
+            state: req.body.state || true,
+            time: req.body.time || new Date().getTime()
+        }
 
+        Article.findOneAndUpdate({ _id: req.body._id }, data, (err, body) => {
+            res.send({ message: '编辑文章成功' })
+        })
+        return
+    }
 
     article.save(err => {
         if (err) {
-            res.send(400, err);
-            return
+            return res.send(400, err);
         }
-        res.json({ message: '新建文章成功！' });
-        return
+        return res.json({ message: '新建文章成功！' });
     })
+})
 
+
+
+router.get('/', (req, res) => {
+    Article.findOne({ _id: req.query.id }, (error, body) => {
+        if (error) {
+            res.send({
+                err: error
+            })
+        }
+        res.send({
+            data: body
+        })
+    })
 })
 
 router.post('/addtag', (req, res) => {
