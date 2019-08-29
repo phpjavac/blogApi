@@ -135,7 +135,7 @@ router.post('/addtag', (req, res) => {
 router.get('/taglist', (req, res) => {
     Tag.find({}, (err, list) => {
         if (list.length === 0) {
-            res.send(400, { message: '暂无标签，请先添加标签' })
+            res.send({ list: [] })
         } else {
             res.json({ list: list });
         }
