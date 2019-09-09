@@ -18,7 +18,12 @@ router.get('/list/tag', (req, res) => {
 router.get('/list', (req, res) => {
     const page = +req.query.page || 1
     const pageSize = +req.query.pageSize || 10
-    var query = Article.find({}).sort({ "time": -1 });
+    const title = req.query.title || false
+    let queryData = {}
+    if(title){
+        queryData.title = new RegExp(title, "i");
+    }
+    var query = Article.find(queryData).sort({ "time": -1 });
     query.skip((page - 1) * pageSize);
     query.limit(pageSize);
     //计算分页数据
