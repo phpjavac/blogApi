@@ -15,10 +15,12 @@ require('./middleware/errorHandler')
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 jwtAuth(app)
-app.use(bodyParser.json())
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+/** 修改请求实体大小 */
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(cookieParser());
 // Listen the server
