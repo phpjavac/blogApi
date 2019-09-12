@@ -23,7 +23,7 @@ router.get('/list', (req, res) => {
     if(title){
         queryData.title = new RegExp(title, "i");
     }
-    var query = Article.find(queryData).sort({ "time": -1 });
+    var query = Article.find(queryData,{content:false}).sort({ "time": -1 });
     query.skip((page - 1) * pageSize);
     query.limit(pageSize);
     //计算分页数据
@@ -32,7 +32,7 @@ router.get('/list', (req, res) => {
             res.send(err);
         } else {
             //计算数据总数
-            Article.find(function (err, result) {
+            Article.find({},{_id:true},function (err, result) {
                 jsonArray = { data: { list: rs }, page: page, pageSize: pageSize, total: result.length };
                 res.json(jsonArray);
             });
